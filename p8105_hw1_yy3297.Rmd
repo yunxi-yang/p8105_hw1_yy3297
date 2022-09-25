@@ -61,14 +61,14 @@ fac_vector_mean
 ```
 Conclusion: The _mean_ function works on the nrom and logical vectors. However, it does not work on the character vectors and factor vectors.
 
-## Apply as.numeric function to logical, character, and factor variables
+## Apply as.numeric function to logical, character, and factor variables to convert into numbers
 ```{r}
-logi_vector_mean2 = mean(as.numeric(pull(p2_df, var = logi_vector)))
-logi_vector_mean2
-char_vector_mean2 = as.numeric(pull(p2_df, var = char_vector))
-char_vector_mean2
-fac_vector_mean2 = as.numeric(pull(p2_df, var = fac_vector))
-fac_vector_mean2
+convert_logi_vector = as.numeric(pull(p2_df, var = logi_vector))
+convert_logi_vector
+convert_char_vector = as.numeric(pull(p2_df, var = char_vector))
+convert_char_vector
+convert_fac_vector = as.numeric(pull(p2_df, var = fac_vector))
+convert_fac_vector
 ```
 Conclusion: The as.numeric function applies successfully to logical and factor vector, while fails to apply to character vectors. This indicates that characters cannot be converted to numbers, while logical vectors and factors can be converted to numbers for further calculations.
 
