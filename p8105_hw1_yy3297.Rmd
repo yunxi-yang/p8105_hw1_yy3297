@@ -1,29 +1,75 @@
 ---
 title: "p8105_hw1_yy3297"
-output: html_document
+author: "Yunxi Yang"
 date: "2022-09-25"
+output: "html_document"
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+# Problem 1
+
+## setup and load the data set
+
+```{r setup}
+library(tidyverse)
+data("penguins", package = "palmerpenguins")
 ```
 
-## R Markdown
+## Description of the penguins data set
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+1.  The Penguins data set includes 8 variables, they are `r colnames(penguins)`.
+2.  This data set has `r nrow(penguins)` rows, and `r ncol(penguins)` columns.
+3.  The mean flipper length of this data set is `r mean(pull(penguins, flipper_length_mm), na.rm = TRUE)`.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+## Plot a scatter plot of flipper_length_mm (y) vs bill_length_mm (x)
 
-```{r cars}
-summary(cars)
+```{r plot a scatterplot of flipper_length_mm (y) vs bill_length_mm (x)}
+ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm, color=species)) + 
+  geom_point() + 
+  ggtitle('Scatterplot of flipper_length_mm (y) vs bill_length_mm') +
+  xlab('Bill Length (mm)') +
+  ylab('Flipper Length (mm)')
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+## Export the scatterplot to project directory
+```{r export scatterplot to project directory}
+ggsave("Flipper_vs_Bill_Scatterplot_Penguins.pdf")
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+# Problem 2
+
+## Create a data frame according to p2 requirements
+```{r create a data frame}
+p2_df = tibble(
+  nrom = rnorm(10, mean = 0, sd = 1),
+  logi_vector = nrom > 0,
+  char_vector = c("a", "b", "c", "d", "e", "f", "g", "h", "i", "j"),
+  fac_vector = factor(c("High", "Middle", "Low", "High", "High", "Middle", "Low", "Low", "Midlle", "Middle"))
+)
+view(p2_df)
+```
+
+## Calculate the mean of variables in the dataframe
+```{r calculate the mean of each variable}
+nrom_mean = mean(pull(p2_df, var = nrom))
+nrom_mean
+logi_vector_mean = mean(pull(p2_df, var = logi_vector))
+logi_vector_mean
+char_vector_mean = mean(pull(p2_df, var = char_vector))
+char_vector_mean
+fac_vector_mean = mean(pull(p2_df, var = fac_vector))
+fac_vector_mean
+```
+Conclusion: The _mean_ function works on the nrom and logical vectors. However, it does not work on the character vectors and factor vectors.
+
+## Apply as.numeric function to logical, character, and factor variables
+```{r}
+logi_vector_mean2 = mean(as.numeric(pull(p2_df, var = logi_vector)))
+logi_vector_mean2
+char_vector_mean2 = as.numeric(pull(p2_df, var = char_vector))
+char_vector_mean2
+fac_vector_mean2 = as.numeric(pull(p2_df, var = fac_vector))
+fac_vector_mean2
+```
+Conclusion: The as.numeric function applies successfully to logical and factor vector, while fails to apply to character vectors. This indicates that characters cannot be converted to numbers, while logical vectors and factors can be converted to numbers for further calculations.
+
+
